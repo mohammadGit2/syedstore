@@ -6,21 +6,20 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "next": "latest",
-    "react": "latest",
-    "react-dom": "latest",
-    "@netlify/blobs": "latest"
+    "@netlify/blobs": "latest",
+    "next": "16.2.10",
+    "react": "19.2.3",
+    "react-dom": "19.2.3"
   },
   "devDependencies": {
+    "@tailwindcss/postcss": "latest",
     "@types/node": "latest",
     "@types/react": "latest",
     "@types/react-dom": "latest",
-    "autoprefixer": "latest",
-    "postcss": "latest",
-    "tailwindcss": "latest",
-    "typescript": "latest",
     "eslint": "latest",
     "eslint-config-next": "latest",
-    "@tailwindcss/postcss": "latest"
+    "postcss": "latest",
+    "tailwindcss": "latest",
+    "typescript": "latest"
   }
 }
