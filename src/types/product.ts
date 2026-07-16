@@ -1,0 +1,22 @@
+export type Product = {
+  id: string;
+  slug: string;
+  name: string;
+  shortDescription: string;
+  description: string;
+  price: number;
+  salePrice?: number;
+  category: string;
+  images: string[];
+  features: string[];
+  specifications: Record<string, string>;
+  rating: number;
+  reviewCount: number;
+  stockStatus: 'In Stock' | 'Low Stock' | 'Out of Stock';
+  stockQuantity: number;
+  tags: string[];
+  featured: boolean;
+  updatedAt: string;
+};
+export type Category = { slug: string; name: string; description: string; image: string; featured: boolean };
+export type Catalog = { products: Product[]; categories: Category[]; homepage: { heroHeadline: string; heroSubheadline: string; topPickSlug: string; featuredCollectionSlug: string; announcement: string } };
