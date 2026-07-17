@@ -84,17 +84,16 @@ export function Newsletter() {
   const [email, setEmail] = useState('');
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
 
-  async function handleSubscribe(e: React.FormEvent) {
+  function handleSubscribe(e: React.FormEvent) {
     e.preventDefault();
     if (!email) return;
     setStatus('loading');
     try {
-      const res = await fetch('/.netlify/functions/subscribe', {
-        method: 'POST',
-        headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({ email })
-      });
-      if (!res.ok) throw new Error('Failed');
+      const to = encodeURIComponent('syedmohammadbinali@gmail.com');
+      const subject = encodeURIComponent('NextMarket subscriber');
+      const body = encodeURIComponent(`New subscriber: ${email}\n\nNote: (NextMarket subscriber)\nTime: ${new Date().toISOString()}`);
+      // open user's mail client with prefilled message
+      window.location.href = `mailto:${to}?subject=${subject}&body=${body}`;
       setStatus('success');
       setEmail('');
     } catch (err) {
@@ -120,10 +119,10 @@ export function Newsletter() {
             required
           />
           <button className="btn bg-sea text-white" type="submit">
-            {status === 'loading' ? 'Subscribing...' : 'Subscribe'}
+            {status === 'loading' ? 'Opening email...' : 'Subscribe'}
           </button>
         </form>
-        {status === 'success' && <p className="col-span-2 mt-3 text-green-100">Thanks — we've received your email.</p>}
+        {status === 'success' && <p className="col-span-2 mt-3 text-green-100">Thanks — mail client opened to send your email.</p>}
         {status === 'error' && <p className="col-span-2 mt-3 text-red-100">There was a problem. Please try again later.</p>}
       </div>
     </section>
