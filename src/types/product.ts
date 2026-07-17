@@ -9,9 +9,14 @@ export type Product = {
   category: string;
   images: string[];
   features: string[];
-  specifications: Record<string, string | undefined>;
+  specifications: Record<string, string>;
   rating: number;
   reviewCount: number;
   stockStatus: 'In Stock' | 'Low Stock' | 'Out of Stock';
+  stockQuantity: number;
   tags: string[];
-};export type Category = { slug: string; name: string; description: string; image: string };
+  featured: boolean;
+  updatedAt: string;
+};
+export type Category = { slug: string; name: string; description: string; image: string; featured: boolean };
+export type Catalog = { products: Product[]; categories: Category[]; homepage: { heroHeadline: string; heroSubheadline: string; topPickSlug: string; featuredCollectionSlug: string; announcement: string } };
