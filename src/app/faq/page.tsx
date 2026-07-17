@@ -1,1 +1,20 @@
-import { FAQ } from '@/components/FAQ';export const metadata={title:'FAQ'};export default function Page(){return <section className="container py-16"><h1 className="text-4xl font-black text-ocean">FAQ</h1><div className="mt-8"><FAQ items={[{q:'Where do you deliver?',a:'Syed Store delivers across Pakistan through courier partners.'},{q:'Is Cash on Delivery available?',a:'Yes, COD is available for eligible orders and locations.'},{q:'How do I contact support?',a:'Use the Contact page or WhatsApp order link on product pages.'}]}/></div></section>}
+import { FAQ } from '@/components/FAQ';
+
+export const metadata = { title: 'FAQ' };
+
+export default function Page() {
+  return (
+    <section className="container py-16">
+      <h1 className="text-4xl font-black text-ocean">FAQ</h1>
+      <div className="mt-8">
+        <FAQ
+          items={[
+            { q: 'Where do you deliver?', a: 'Next Market delivers across Pakistan through courier partners.' },
+            { q: 'Is Cash on Delivery available?', a: 'Yes, COD is available for eligible orders and locations.' },
+            { q: 'How do I contact support?', a: 'Use the Contact page or WhatsApp order link on product pages.' }
+          ]}
+        />
+      </div>
+    </section>
+  );
+}

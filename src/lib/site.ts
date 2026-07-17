@@ -2,7 +2,7 @@ export const site = {
   name: 'Next Market',
   url: 'https://nextmarketpk.netlify.app',
   description: 'Practical gadgets, kitchen tools, home essentials, and personal care products for modern households. (next market pk)',
-  whatsapp: 'https://wa.me/923001234567'
+  whatsapp: 'https://wa.me/923233086528'
 };
 
 export const nav = [

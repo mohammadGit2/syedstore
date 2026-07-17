@@ -1,5 +1,131 @@
-'use client';import Link from 'next/link';import { useState } from 'react';import { nav, site } from '@/lib/site';import { categories } from '@/data/products';
-export function AnnouncementBar(){return <div className="bg-ocean py-2 text-center text-sm font-semibold text-white">Cash on Delivery Available • Fast Delivery Across Pakistan • Quality Checked Products</div>}
-export function Header(){const[open,setOpen]=useState(false),[search,setSearch]=useState(false);return <><header className="sticky top-0 z-40 border-b bg-white/90 backdrop-blur"><div className="container flex h-20 items-center justify-between"><Link className="text-2xl font-black text-ocean" href="/">{site.name}</Link><nav className="hidden items-center gap-7 lg:flex">{nav.map(n=><Link className="font-semibold hover:text-sea" key={n.href} href={n.href}>{n.label}</Link>)}<div className="group relative"><button className="font-semibold">Mega Menu</button><div className="invisible absolute left-0 top-8 grid w-[560px] grid-cols-2 gap-3 rounded-3xl border bg-white p-5 opacity-0 shadow-soft group-hover:visible group-hover:opacity-100">{categories.map(c=><Link className="rounded-2xl bg-surface p-4" href={`/categories/${c.slug}`} key={c.slug}><b>{c.name}</b><span className="block text-sm text-slate-600">{c.description}</span></Link>)}</div></div></nav><div className="flex items-center gap-3"><button onClick={()=>setSearch(true)} aria-label="Search" className="font-semibold">Search</button><Link href="/cart" className="font-semibold">Cart</Link><button onClick={()=>setOpen(!open)} className="lg:hidden" aria-label="Open menu">Menu</button></div></div>{open&&<nav className="container grid gap-3 pb-5 lg:hidden">{nav.map(n=><Link key={n.href} href={n.href}>{n.label}</Link>)}</nav>}</header>{search&&<div role="dialog" aria-modal="true" className="fixed inset-0 z-50 bg-ocean/70 p-4"><div className="mx-auto mt-24 max-w-2xl rounded-3xl bg-white p-6"><button onClick={()=>setSearch(false)} className="float-right font-bold">Close</button><h2 className="text-2xl font-black text-ocean">Search Syed Store</h2><form action="/search" className="mt-5"><input name="q" autoFocus placeholder="Search products" className="w-full rounded-2xl border p-4"/></form></div></div>}</>}
-export function Newsletter(){return <section className="bg-ocean py-16 text-white"><div className="container grid gap-6 md:grid-cols-2"><div><h2 className="text-3xl font-black">Get useful product updates</h2><p className="mt-2 text-white/80">New arrivals, care tips, and exclusive Syed Store offers.</p></div><form className="flex gap-2"><input aria-label="Email" placeholder="Email address" className="min-w-0 flex-1 rounded-full px-5 text-charcoal"/><button className="btn bg-sea text-white">Subscribe</button></form></div></section>}
-export function Footer(){return <footer className="bg-surface py-14"><div className="container grid gap-8 md:grid-cols-4"><div><h3 className="text-2xl font-black text-ocean">{site.name}</h3><p className="mt-3 text-slate-600">Practical products that improve everyday life.</p></div>{[['Shop',['Shop','Categories','Wishlist','Track Order']],['Support',['FAQ','Shipping Policy','Return Policy','Contact Us']],['Legal',['Privacy Policy','Terms and Conditions']]].map(([h,links])=><div key={h as string}><h4 className="font-bold">{h as string}</h4><ul className="mt-3 space-y-2">{(links as string[]).map(l=><li key={l}><Link href={`/${l.toLowerCase().replaceAll(' ','-')}`}>{l}</Link></li>)}</ul></div>)}</div></footer>}
+'use client';
+import Link from 'next/link';
+import { useState } from 'react';
+import { nav, site } from '@/lib/site';
+import { categories } from '@/data/products';
+
+export function AnnouncementBar() {
+  return (
+    <div className="bg-ocean py-2 text-center text-sm font-semibold text-white">
+      Cash on Delivery Available • Fast Delivery Across Pakistan • Quality Checked Products
+    </div>
+  );
+}
+
+export function Header() {
+  const [open, setOpen] = useState(false),
+    [search, setSearch] = useState(false);
+  return (
+    <>
+      <header className="sticky top-0 z-40 border-b bg-white/90 backdrop-blur">
+        <div className="container flex h-20 items-center justify-between">
+          <Link className="text-2xl font-black text-ocean" href="/">
+            {site.name}
+          </Link>
+          <nav className="hidden items-center gap-7 lg:flex">
+            {nav.map((n) => (
+              <Link className="font-semibold hover:text-sea" key={n.href} href={n.href}>
+                {n.label}
+              </Link>
+            ))}
+            <div className="group relative">
+              <button className="font-semibold">Mega Menu</button>
+              <div className="invisible absolute left-0 top-8 grid w-[560px] grid-cols-2 gap-3 rounded-3xl border bg-white p-5 opacity-0 shadow-soft group-hover:visible group-hover:opacity-100">
+                {categories.map((c) => (
+                  <Link className="rounded-2xl bg-surface p-4" href={`/categories/${c.slug}`} key={c.slug}>
+                    <b>{c.name}</b>
+                    <span className="block text-sm text-slate-600">{c.description}</span>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </nav>
+          <div className="flex items-center gap-3">
+            <button onClick={() => setSearch(true)} aria-label="Search" className="font-semibold">
+              Search
+            </button>
+            <Link href="/cart" className="font-semibold">
+              Cart
+            </Link>
+            <button onClick={() => setOpen(!open)} className="lg:hidden" aria-label="Open menu">
+              Menu
+            </button>
+          </div>
+        </div>
+        {open && (
+          <nav className="container grid gap-3 pb-5 lg:hidden">
+            {nav.map((n) => (
+              <Link key={n.href} href={n.href}>
+                {n.label}
+              </Link>
+            ))}
+          </nav>
+        )}
+      </header>
+
+      {search && (
+        <div role="dialog" aria-modal="true" className="fixed inset-0 z-50 bg-ocean/70 p-4">
+          <div className="mx-auto mt-24 max-w-2xl rounded-3xl bg-white p-6">
+            <button onClick={() => setSearch(false)} className="float-right font-bold">
+              Close
+            </button>
+            <h2 className="text-2xl font-black text-ocean">Search Next Market</h2>
+            <form action="/search" className="mt-5">
+              <input name="q" autoFocus placeholder="Search products" className="w-full rounded-2xl border p-4" />
+            </form>
+          </div>
+        </div>
+      )}
+    </>
+  );
+}
+
+export function Newsletter() {
+  const [email, setEmail] = useState('');
+  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+
+  async function handleSubscribe(e: React.FormEvent) {
+    e.preventDefault();
+    if (!email) return;
+    setStatus('loading');
+    try {
+      const res = await fetch('/.netlify/functions/subscribe', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ email })
+      });
+      if (!res.ok) throw new Error('Failed');
+      setStatus('success');
+      setEmail('');
+    } catch (err) {
+      setStatus('error');
+    }
+  }
+
+  return (
+    <section className="bg-ocean py-16 text-white">
+      <div className="container grid gap-6 md:grid-cols-2">
+        <div>
+          <h2 className="text-3xl font-black">Get useful product updates</h2>
+          <p className="mt-2 text-white/80">New arrivals, care tips, and exclusive Next Market offers.</p>
+        </div>
+        <form className="flex gap-2" onSubmit={handleSubscribe}>
+          <input
+            aria-label="Email"
+            placeholder="Email address"
+            className="min-w-0 flex-1 rounded-full px-5 text-charcoal"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            type="email"
+            required
+          />
+          <button className="btn bg-sea text-white" type="submit">
+            {status === 'loading' ? 'Subscribing...' : 'Subscribe'}
+          </button>
+        </form>
+        {status === 'success' && <p className="col-span-2 mt-3 text-green-100">Thanks — we've received your email.</p>}
+        {status === 'error' && <p className="col-span-2 mt-3 text-red-100">There was a problem. Please try again later.</p>}
+      </div>
+    </section>
+  );
+}
