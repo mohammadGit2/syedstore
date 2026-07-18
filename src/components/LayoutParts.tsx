@@ -2,17 +2,17 @@
 import Link from 'next/link';
 import { useState } from 'react';
 import { nav, site } from '@/lib/site';
-import { categories } from '@/data/products';
+import type { Category } from '@/types/product';
 
-export function AnnouncementBar() {
+export function AnnouncementBar({ text }: { text?: string }) {
   return (
     <div className="bg-ocean py-2 text-center text-sm font-semibold text-white">
-      Cash on Delivery Available • Fast Delivery Across Pakistan • Quality Checked Products
+      {text || 'Cash on Delivery Available • Fast Delivery Across Pakistan • Quality Checked Products'}
     </div>
   );
 }
 
-export function Header() {
+export function Header({ categories = [] }: { categories?: Category[] }) {
   const [open, setOpen] = useState(false),
     [search, setSearch] = useState(false);
   return (
