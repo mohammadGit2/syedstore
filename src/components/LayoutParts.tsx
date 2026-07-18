@@ -80,6 +80,44 @@ export function Header() {
   );
 }
 
+export function Footer() {
+  return (
+    <footer className="border-t bg-charcoal text-white/80">
+      <div className="container grid gap-8 py-12 md:grid-cols-3">
+        <div>
+          <Link className="text-2xl font-black text-white" href="/">
+            {site.name}
+          </Link>
+          <p className="mt-3 max-w-sm text-sm">{site.description}</p>
+        </div>
+        <div>
+          <h3 className="font-bold text-white">Quick Links</h3>
+          <nav className="mt-3 grid gap-2 text-sm">
+            {nav.map((n) => (
+              <Link className="hover:text-white" key={n.href} href={n.href}>
+                {n.label}
+              </Link>
+            ))}
+          </nav>
+        </div>
+        <div>
+          <h3 className="font-bold text-white">Categories</h3>
+          <nav className="mt-3 grid gap-2 text-sm">
+            {categories.slice(0, 6).map((c) => (
+              <Link className="hover:text-white" href={`/categories/${c.slug}`} key={c.slug}>
+                {c.name}
+              </Link>
+            ))}
+          </nav>
+        </div>
+      </div>
+      <div className="border-t border-white/10 py-5 text-center text-sm">
+        © {new Date().getFullYear()} {site.name}. All rights reserved.
+      </div>
+    </footer>
+  );
+}
+
 export function Newsletter() {
   const [email, setEmail] = useState('');
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
