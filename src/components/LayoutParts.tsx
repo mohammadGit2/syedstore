@@ -128,3 +128,39 @@ export function Newsletter() {
     </section>
   );
 }
+
+export function Footer() {
+  return (
+    <footer className="border-t bg-surface">
+      <div className="container grid gap-8 py-14 md:grid-cols-3">
+        <div>
+          <h3 className="text-2xl font-black text-ocean">{site.name}</h3>
+          <p className="mt-2 max-w-sm text-sm text-slate-600">{site.description}</p>
+        </div>
+        <div>
+          <h4 className="font-bold text-charcoal">Quick Links</h4>
+          <ul className="mt-3 space-y-2 text-sm">
+            {nav.map((n) => (
+              <li key={n.href}>
+                <Link className="text-slate-600 hover:text-sea" href={n.href}>
+                  {n.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div>
+          <h4 className="font-bold text-charcoal">Get in Touch</h4>
+          <p className="mt-3 text-sm text-slate-600">
+            <a className="hover:text-sea" href={site.whatsapp} target="_blank" rel="noopener noreferrer">
+              Chat with us on WhatsApp
+            </a>
+          </p>
+        </div>
+      </div>
+      <div className="border-t py-5 text-center text-xs text-slate-500">
+        © {new Date().getFullYear()} {site.name}. All rights reserved.
+      </div>
+    </footer>
+  );
+}
