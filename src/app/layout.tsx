@@ -2,6 +2,9 @@ import type { Metadata } from 'next';
 import './globals.css';
 import { AnnouncementBar, Footer, Header, Newsletter } from '@/components/LayoutParts';
 import { site } from '@/lib/site';
+import { getCatalog } from '@/lib/catalog';
+
+export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
@@ -10,12 +13,13 @@ export const metadata: Metadata = {
   openGraph: { title: 'Next Market PK', description: site.description, type: 'website', url: site.url }
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const catalog = await getCatalog();
   return (
     <html lang="en">
       <body>
-        <AnnouncementBar />
-        <Header />
+        <AnnouncementBar text={catalog.homepage.announcement} />
+        <Header categories={catalog.categories} />
         <main>{children}</main>
         <Newsletter />
         <Footer />
