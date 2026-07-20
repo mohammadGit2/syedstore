@@ -128,3 +128,56 @@ export function Newsletter() {
     </section>
   );
 }
+
+export function Footer() {
+  return (
+    <footer className="bg-surface py-14">
+      <div className="container grid gap-8 md:grid-cols-4">
+        <div>
+          <h3 className="text-2xl font-black text-ocean">{site.name}</h3>
+          <p className="mt-2 text-sm text-slate-600">{site.description}</p>
+        </div>
+        <div>
+          <h4 className="font-bold">Navigate</h4>
+          <ul className="mt-2 space-y-2 text-sm text-slate-600">
+            {nav.map((n) => (
+              <li key={n.href}>
+                <Link href={n.href} className="hover:underline">
+                  {n.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div>
+          <h4 className="font-bold">Support</h4>
+          <ul className="mt-2 space-y-2 text-sm text-slate-600">
+            <li>
+              <a href={site.whatsapp} target="_blank" rel="noopener noreferrer">
+                WhatsApp: +923233086528
+              </a>
+            </li>
+            <li>
+              <a href="mailto:syedmohammadbinali@gmail.com">Email us</a>
+            </li>
+          </ul>
+        </div>
+        <div>
+          <h4 className="font-bold">Policies</h4>
+          <ul className="mt-2 space-y-2 text-sm text-slate-600">
+            <li>
+              <Link href="/shipping-policy">Shipping Policy</Link>
+            </li>
+            <li>
+              <Link href="/return-policy">Return Policy</Link>
+            </li>
+            <li>
+              <Link href="/privacy-policy">Privacy Policy</Link>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div className="container mt-8 border-t pt-6 text-sm text-slate-500">© {new Date().getFullYear()} {site.name} — All rights reserved.</div>
+    </footer>
+  );
+}
