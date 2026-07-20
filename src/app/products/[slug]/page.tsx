@@ -1,12 +1,88 @@
 import { notFound } from 'next/navigation';
-import { FAQ } from '@/components/FAQ';
-import { ProductCard } from '@/components/ProductCard';
-import { Breadcrumbs } from '@/components/Breadcrumbs';
-import { AddToCartButton } from '@/components/product/AddToCartButton';
-import { getCatalog } from '@/lib/catalog';
+import { getCatalog, getProductBySlug } from '@/lib/catalog';
 import { formatPrice } from '@/lib/pricing';
-import { site } from '@/lib/site';
+import { AddToCartButton } from '@/components/product/AddToCartButton';
+import { OrderButtons } from '@/components/product/OrderButtons';
+import { Breadcrumbs } from '@/components/Breadcrumbs';
 
-export async function generateMetadata({params}:{params:Promise<{slug:string}>}){const {slug}=await params;const catalog=await getCatalog();const p=catalog.products.find(product=>product.slug===slug);return {title:p?.name??'Product',description:p?.shortDescription,openGraph:{title:p?.name,description:p?.shortDescription,images:p?.images?.slice(0,1)}}}
 export const dynamic = 'force-dynamic';
-export default async function ProductPage({params}:{params:Promise<{slug:string}>}){const {slug}=await params;const catalog=await getCatalog();const p=catalog.products.find(product=>product.slug===slug);if(!p)notFound();return <><Breadcrumbs items={[{label:'Shop',href:'/shop'},{label:p.name}]}/><section className="container grid gap-10 pb-16 lg:grid-cols-2"><div><img src={p.images[0]} alt={p.name} className="card h-[520px] w-full object-cover"/><div className="mt-4 grid grid-cols-4 gap-3">{p.images.map(i=><img key={i} src={i} alt="" className="rounded-2xl border object-cover"/>)}</div></div><div><p className="font-bold text-sea">{p.stockStatus} • {p.stockQuantity} available</p><h1 className="mt-2 text-5xl font-black text-ocean">{p.name}</h1><p className="mt-3">★★★★★ {p.rating} ({p.reviewCount} reviews)</p><div className="mt-5 flex gap-3"><strong className="text-3xl text-ocean">{formatPrice(p.salePrice??p.price)}</strong>{p.salePrice&&<span className="text-slate-400 line-through">{formatPrice(p.price)}</span>}</div><p className="mt-6 text-lg text-slate-600">{p.description}</p><h2 className="mt-8 text-xl font-black">Features</h2><ul className="mt-3 space-y-2">{p.features.map(f=><li key={f}>✓ {f}</li>)}</ul><h2 className="mt-8 text-xl font-black">Specifications</h2><dl className="mt-3 grid gap-2">{Object.entries(p.specifications).map(([k,v])=><div className="flex justify-between border-b py-2" key={k}><dt>{k}</dt><dd className="font-semibold">{v}</dd></div>)}</dl><p className="mt-6 rounded-2xl bg-surface p-4"><b>Delivery:</b> Fast delivery across Pakistan. Cash on Delivery available.</p><div className="flex flex-wrap gap-3"><AddToCartButton product={p}/><a className="btn mt-5 bg-sea text-white" href={`https://wa.me/${site.whatsapp.replace(/\D/g,'')}?text=I want to order ${encodeURIComponent(p.name)}`}>Order on WhatsApp</a></div></div></section><section className="container py-12"><h2 className="text-3xl font-black text-ocean">Product FAQ</h2><div className="mt-6"><FAQ items={[{q:'Is Cash on Delivery available?',a:'Yes, COD is available for eligible locations.'},{q:'Can I return this item?',a:'Returns are handled according to the return policy.'}]}/></div></section><section className="container py-12"><h2 className="text-3xl font-black text-ocean">Related Products</h2><div className="mt-6 grid gap-6 md:grid-cols-3">{catalog.products.filter(x=>x.id!==p.id).slice(0,3).map(x=><ProductCard product={x} key={x.id}/>)}</div></section></>}
+
+export async function generateMetadata({ params }: { params: { slug: string } }) {
+  const product = await getProductBySlug(params.slug);
+  return { title: product?.name ?? 'Product', description: product?.shortDescription };
+}
+
+export default async function ProductPage({ params }: { params: { slug: string } }) {
+  const product = await getProductBySlug(params.slug);
+  if (!product) return notFound();
+  const catalog = await getCatalog();
+  const related = catalog.products.filter((p) => p.slug !== product.slug).slice(0, 3);
+
+  return (
+    <section className="container py-12">
+      <Breadcrumbs items={[{ href: '/', label: 'Home' }, { href: '/products', label: 'Products' }, { href: `/products/${product.slug}`, label: product.name }]} />
+
+      <div className="grid gap-8 md:grid-cols-3">
+        <div className="md:col-span-2">
+          <div className="grid gap-6 md:grid-cols-2">
+            <div>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={product.images[0] || '/placeholder-product.svg'} alt={product.name} className="w-full rounded-lg object-cover" />
+            </div>
+            <div>
+              <h1 className="text-2xl font-bold">{product.name}</h1>
+              <p className="mt-2 text-sm text-slate-600">{product.shortDescription}</p>
+              <div className="mt-4 flex items-center gap-4">
+                <strong className="text-2xl text-ocean">{formatPrice(product.salePrice ?? product.price)}</strong>
+                {product.salePrice && <span className="text-sm line-through text-slate-400">{formatPrice(product.price)}</span>}
+              </div>
+
+              <div className="mt-4">
+                <AddToCartButton product={product} />
+                {/* @ts-expect-error Server component importing client */}
+                <OrderButtons product={product} />
+              </div>
+
+              <div className="mt-6">
+                <h3 className="font-bold">Product Details</h3>
+                <p className="mt-2 text-slate-700">{product.description}</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-10">
+            <h3 className="text-xl font-bold">Frequently asked</h3>
+            <FAQ items={[{ q: 'Where do you deliver?', a: 'Next Market delivers across Pakistan through courier partners.' }]} />
+          </div>
+        </div>
+
+        <aside>
+          <div className="card p-4">
+            <h4 className="font-bold">Why buy from Next Market?</h4>
+            <ul className="mt-2 list-disc pl-5 text-sm text-slate-600">
+              <li>Cash on Delivery Available</li>
+              <li>Fast Delivery Across Pakistan</li>
+              <li>Secure Ordering Process</li>
+              <li>Customer Support via WhatsApp</li>
+            </ul>
+          </div>
+
+          <div className="mt-6">
+            <h4 className="font-bold">You may also like</h4>
+            <div className="mt-3 grid gap-3">
+              {related.map((p) => (
+                <div key={p.id} className="flex items-center gap-3">
+                  <img src={p.images[0] || '/placeholder-product.svg'} alt={p.name} className="h-12 w-12 rounded object-cover" />
+                  <div>
+                    <div className="text-sm font-semibold">{p.name}</div>
+                    <div className="text-sm text-slate-600">{formatPrice(p.salePrice ?? p.price)}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+  );
+}
